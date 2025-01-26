@@ -1,6 +1,6 @@
 import express from "express";
 import {Customer} from "../model/Customer";
-import {CustomerAdd, CustomerUpdate, getAllCustomers} from "../controller/CustomerController";
+import {CustomerAdd, CustomerDelete, CustomerUpdate, getAllCustomers} from "../controller/CustomerController";
 
 const router = express.Router();
 
@@ -37,4 +37,16 @@ router.get("/get", async(req, res) => {
     }
 
 })
+
+router.delete("/delete/:Email", async (req, res) => {
+
+    const Email:string = req.params.Email;
+    try {
+        const deletedCustomer = await CustomerDelete(Email);
+        res.json(deletedCustomer);
+    }catch (err){
+        console.log('error deleting customer',err);
+    }
+})
+
 export default router;

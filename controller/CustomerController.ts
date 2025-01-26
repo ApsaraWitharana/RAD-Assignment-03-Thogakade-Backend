@@ -44,3 +44,16 @@ export async function getAllCustomers(){
         console.log("error getting customers from prisma data",err);
     }
 }
+
+export async function CustomerDelete(Email:string){
+    try {
+        const deletedCustomer = await prisma.customer.delete({
+            where:{Email:Email}
+        });
+        console.log('Customer deleted:',Email);
+        return deletedCustomer;
+    }catch (err){
+        console.log('error deleting customer',err);
+    }
+
+}
