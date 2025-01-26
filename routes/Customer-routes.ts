@@ -1,6 +1,7 @@
 import express from "express";
 import {Customer} from "../model/Customer";
 import {CustomerAdd, CustomerDelete, CustomerUpdate, getAllCustomers} from "../controller/CustomerController";
+import e from "express";
 
 const router = express.Router();
 
@@ -22,9 +23,16 @@ router.put("/update/:CustomerID",async(req, res) => {
 
      try {
          const updatedCustomer = await CustomerUpdate(CustomerId,customer);
-         res.json(updatedCustomer);
+         if (updatedCustomer){
+             res.json(updatedCustomer);
+         }else {
+             res.status(404).json({ error: "Customer not found" });
+         }
+
      }catch (err){
          console.log("error updating customer",err);
+         res.status(500).json({ error: "Internal server error" });
+
      }
 })
 router.get("/get", async(req, res) => {
@@ -39,14 +47,19 @@ router.get("/get", async(req, res) => {
 })
 
 router.delete("/delete/:Email", async (req, res) => {
-
     const Email:string = req.params.Email;
     try {
         const deletedCustomer = await CustomerDelete(Email);
-        res.json(deletedCustomer);
+        if (deletedCustomer){
+            res.json(deletedCustomer);
+        }else {
+            res.status(404).json({ error: "Customer not found" });
+        }
+
     }catch (err){
         console.log('error deleting customer',err);
+        res.status(500).json({ error: "Internal server error" });
+
     }
 })
-
 export default router;
