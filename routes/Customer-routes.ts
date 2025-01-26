@@ -22,6 +22,7 @@ router.put("/update/:CustomerID",async(req, res) => {
      const customer:Customer = req.body;
 
      try {
+
          const updatedCustomer = await CustomerUpdate(CustomerId,customer);
          if (updatedCustomer){
              res.json(updatedCustomer);
