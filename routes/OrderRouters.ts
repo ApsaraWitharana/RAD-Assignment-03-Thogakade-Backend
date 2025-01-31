@@ -7,7 +7,7 @@ router.post('/place-order',async (req,res)=>{
 
 const order =req.body
     try {
-        const savedOrder = await addOrder(order)
+        const savedOrder = await addOrder(req,res)
         res.send(savedOrder);
     }catch (err){
       res.status(400).send('failed to save')
